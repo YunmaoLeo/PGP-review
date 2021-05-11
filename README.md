@@ -17,6 +17,7 @@
     - [Constructor overloading](#constructor-overloading)
     - [Static variables:](#static-variables)
     - [Inner classes:](#inner-classes)
+  - [Java Week3 PGP05](#java-week3-pgp05)
 ## Lecture 01 Week1
 
 ### Java Compilers and the JVM
@@ -181,3 +182,5 @@ class Outer {
 } 
 }
 ```
+
+## Java Week3 PGP05
