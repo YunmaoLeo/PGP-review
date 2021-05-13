@@ -17,7 +17,16 @@
     - [Constructor overloading](#constructor-overloading)
     - [Static variables:](#static-variables)
     - [Inner classes:](#inner-classes)
-  - [Java Week3 PGP05](#java-week3-pgp05)
+  - [Java Week4 PGP05](#java-week4-pgp05)
+    - [Constructors vs methods 构造函数和方法](#constructors-vs-methods-构造函数和方法)
+    - [``Static`` keyword：](#static-keyword)
+    - [Inheritance继承](#inheritance继承)
+    - [Overriding：](#overriding)
+  - [Java Week3 06](#java-week3-06)
+    - [在改写时添加关键字 ``Override``](#在改写时添加关键字-override)
+    - [Inner class(private or public)](#inner-classprivate-or-public)
+    - [Abstraction 抽象](#abstraction-抽象)
+    - [抽象方法](#抽象方法)
 ## Lecture 01 Week1
 
 ### Java Compilers and the JVM
@@ -183,4 +192,96 @@ class Outer {
 }
 ```
 
-## Java Week3 PGP05
+## Java Week4 PGP05
+
+### Constructors vs methods 构造函数和方法
++ Constructors 构造器：
+  + 在对象被创建的时候初始化
+  + 当使用new关键词创建对象时，被``隐性调用``
+  + 必须``和类的名字是相同的``
+  + 构造器不能返回任何东西（因为对象本身就是他要返回的）
++ Methods 方法：
+  + 方法在对象已经存在的时候进行操作
+  + 方法可以直接地被已存在的对象调用
+  + 必须和类的名字不相同
+  + 方法必须要被设置有``return something``， 尽管有void
+
+### ``Static`` keyword：
++ ``Variables, Methods, inner Classes``
++ 用来减少JVM的内存使用
++ 让代码更安全（变量通过特殊的方式进行修改）
++ 如果变量是被声明static的，那么在任何对象改变他，适用于所有的对象
++ ``Static methods``在他的对象的类创建之前就可以被调用
++ 静态方法不能是用``this``
+
+### Inheritance继承
++ Class that is inherited is the ``superclass``
++ class that inherits is the ``subclass``
++ 子类会继承父类的所有方法和变量
++ 父类的变化会影响到子类们
++ Subclasses code can change the ‘intention’ of the superclass code
++ 使用关键字``extends``继承
++ ``每个子类只能有一个父类``
++ 一个子类构造器可以调用一个父类的构造器，使用``super()``，但需要在做其他操作之前
++ 如果没有调用父类的构造器，那么会自动调用一个没有参数的构造器
+  
+
+### Overriding：
++ 如果一个类从他的父类继承了一个方法，他可以选择``override``掉，除非父类没有标注``final``
++ 如果方法使用相同的名字被重写，在编译时，他们会将原本的方法给替代掉
++ 需要相同的参数和返回类型
++ 一个被声明了``final`` 或 ``or`` 的方法不可以被改写
++ ``constructors``构造器不可以被改写
+
+
+## Java Week3 06
+
+### 在改写时添加关键字 ``Override``
+
+### Inner class(private or public)
++ 在一个类的里面写类
++ 我们可以将其转变为private
++ 外部类的方法可以初始化内部类
++ 外部类的方法可以被主函数中别的类调用
+
+<br>
+
++ 可以实现一个别的类都无法获取的类
+  + ``static inner class``
+    + 静态类可以不初始化就访问
+    + 无法获取外部类的实例变量或方法
+    + 像方法一样调用  ``XXX.inner_class
+  + ``private inner class``
+    + 内部类可以获取外部类的私有变量
+  + ``Method local inner classes``:
+    + 一个内部只有一个方法的类
+  + ``Anonymous Inner Class``匿名内部变量：
+    + 没有名字的inner class
+    + 同时声明和实例化
+    + 用于overriding methods
+
+### Abstraction 抽象
++ 隐藏``implementation details`` 并且只展示对象做什么给用户的过程
++ ``Abstract classes and abstract methods``
++ 抽象类不可以被实例化``instantiated``
++ 需要被申明``abstract``
++ ``public abstract class XYZ``
++ 可以是子类
++ 这些继承出去的类被叫做``concrete classes``可继承实体类
++ 一个抽象类是没有用的，除非他被其他类继承了
++ 当每个自己都会override的时候是有用的
+
+### 抽象方法
++ 一个没有任何东西的方法
++ 只有抽象类可以有抽象方法
++ 一个抽象类的子类必须有父类的所有的抽象方法的实现，如果没有，那么仍然是一个抽象类
++ 一个抽象类可以涵盖抽象方法和不抽象方法
++ 如果在一个类里面定义了抽象方法，就必须要把类也定义为抽象的
++ 一个没有抽象方法的类也可以被定义为抽象类
+
++ Student Code: 20215699
++ Exam Title Duration Dep Date & Time Room
++ COMP1047 Systems and Architecture 2 hrs CS 5/21/2021 14:30 Siyuan Auditorium
++ COMP1039 Programming Paradigms 2 hrs 30 mins CS 5/25/2021 17:00 DB-C05
++ COMP1037 Fundamentals of Artificial Intelligence 1 hr 30 mins CS 5/28/2021 14:00 TB118
++ COMP1035 Software Engineering? 1 hr CS 5/17/2021 17:30 DB-C05
