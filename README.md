@@ -22,11 +22,34 @@
     - [``Static`` keyword：](#static-keyword)
     - [Inheritance继承](#inheritance继承)
     - [Overriding：](#overriding)
-  - [Java Week3 06](#java-week3-06)
+  - [Java Week4 06](#java-week4-06)
     - [在改写时添加关键字 ``Override``](#在改写时添加关键字-override)
     - [Inner class(private or public)](#inner-classprivate-or-public)
     - [Abstraction 抽象](#abstraction-抽象)
     - [抽象方法](#抽象方法)
+  - [Java Week 6 07](#java-week-6-07)
+    - [Abstraction -> Interfaces](#abstraction---interfaces)
+    - [Interface 接口](#interface-接口)
+    - [Interface:](#interface)
+    - [Interfaces vs. Abstract Class](#interfaces-vs-abstract-class)
+    - [使用接口还是类？](#使用接口还是类)
+    - [OO programming - Designing a Class](#oo-programming---designing-a-class)
+    - [使用可见性修改器``Visibility Modifiers``](#使用可见性修改器visibility-modifiers)
+    - [SOLID](#solid)
+  - [Java Week4 08](#java-week4-08)
+    - [Abstraction](#abstraction)
+    - [super and super()](#super-and-super)
+    - [Packages](#packages)
+    - [Static import](#static-import)
+    - [Polymorphism 多态](#polymorphism-多态)
+    - [Generics:](#generics)
+    - [使用``@Override``](#使用override)
+    - [ArrayList:](#arraylist)
+    - [为什么要用Generics](#为什么要用generics)
+  - [Java week7 01 Exception Handling](#java-week7-01-exception-handling)
+    - [Exception handling ``Try,Catch``](#exception-handling-trycatch)
+    - [Other types of exception:](#other-types-of-exception)
+    - [Declaring Exceptions using ``throws``](#declaring-exceptions-using-throws)
 ## Lecture 01 Week1
 
 ### Java Compilers and the JVM
@@ -234,7 +257,7 @@ class Outer {
 + ``constructors``构造器不可以被改写
 
 
-## Java Week3 06
+## Java Week4 06
 
 ### 在改写时添加关键字 ``Override``
 
@@ -285,3 +308,272 @@ class Outer {
 + COMP1039 Programming Paradigms 2 hrs 30 mins CS 5/25/2021 17:00 DB-C05
 + COMP1037 Fundamentals of Artificial Intelligence 1 hr 30 mins CS 5/28/2021 14:00 TB118
 + COMP1035 Software Engineering? 1 hr CS 5/17/2021 17:30 DB-C05
+
+
+## Java Week 6 07
+
+### Abstraction -> Interfaces
++ 只展示相关的细节，隐藏不重要的内容
++ 允许抽象方法和非抽象方法被``overridden``j
+
+### Interface 接口
++ 在很多情况下，接口和一个抽象类很相似，但是接口是为了制定对象的常见行为``specify common behavior for objects``
++ 比如，使用合适的接口，可以指定对象是
+  + ``compareble``可比较的 
+  + ``edible``可修改的
+  + ``rideable``可读的
++ 然后抽象类只是未成熟的骨架，必须要用子类
+
++ Interface:
+  + 只能有抽象方法
+  + 成员永远是public的
+  + 借口只能继承其他的java接口
+  + 只有static和final变量
+  + Java8 中也允许使用默认和静态方法了
+    + Default:
+    ```Java
+    default void defaultTest(){
+      System.out.println("This is default test");
+    }
+    ```
+
+    + Static:静态方法有完整的函数定义，所以不可以被overridden或改变
+    ```Java
+    static void staticTest(){
+      System.out.println("This is static test);
+    }
+    ```
+
+### Interface:
++ 接口是一个``reference type``参数类型，和类相似，是抽象方法的合集，一个类implements一个接口，因此继承了借口的抽象方法
++ 同样可以包含``final values, default methods, static methods and inner classes``
+ 
+```Java
+public interface MoveableI{
+  void move();
+}
+
+public class VehicleI implements MoveableI{
+  public void move(){
+    System.out.println('moves')'
+  }
+  }
+```
+
++ 定义一个接口
+```java
+public interface InterfaceName{
+  constant declarations;
+  abstract method signatures;
+  default methods;
+  static methods;
+}
+```
+
++ ```interface extends interface```
+  + ``public interface Bicycle extends Vehicle``
+  + ``public interface Fish extends Animal, Food``
+  + 这允许了一个类由多个父类``one class to have multiple parents``
+  + 通过这样做，我们可以使用借口来规避单一继承的限制
+  
+
+### Interfaces vs. Abstract Class
++  在借口中，如果需要涵盖数据，就必须是``constant*``，一个抽象类可以有多种类别的数据，借口是更纯粹的抽象
++  所有的类都共享同一个父类``Object class``， 但是接口没有
+
+### 使用接口还是类？
++ 比较强的``IS-A``关系通常使用类，比如``Staff member is a person``,``A cat is an animal``
++ 一个较弱的``IS-A``关系，也叫做``is-kind-of``，表明一个类有某种特殊的性质
+  + 比如，所有的Strings都是可比较的，所以String class implements Comparable interface
+
+```java
+interface Parent1{
+  default void display(){
+    System.out.println("I am your mother")}}
+interface Parent2{
+  default void display(){
+    System.out.println("I am your father")}}
+
+class TestMultParents implements Parent1,Parent2{
+  public void display(){
+    Parent1.super.display();
+    Parent2.super.display();}}
+
+public static void main(String args[]){
+  TestMultParents d = new TestMultParents();
+  d.display();}
+```
+
+result:
+```
+I am your mother
+I am your father
+```
++ 两个方法都得到了继承，并且会同时使用出来
+
+### OO programming - Designing a Class
++ Coherence连贯性:
+  + 一个类应该描述一个单独的实体，所有的类操作都应该支持一个``coherent purpose``连贯的目的
+  + 一个有太多职责的个体可以区分成不同的类来拆分职责
+
+### 使用可见性修改器``Visibility Modifiers``
++ 一个类如果需要隐藏他的数据避免被用户直接访问，就需要使用``private``
++ 一个类也应该隐藏那些不面向使用者的方法
+
+### SOLID
++ Single Responsibility Principle:
+  + 一个类应该只有一个职责，一个类不应该承载太多
++ Open Closed Principle
+  + 一个类应该允许``extension``继承，但不允许``modification``修改
++ Liskov's substitution principle
+  + 一个方法应该对每一个子类对象都可以行得通
+  + 一个类可以被他的任意一个子类替代
++ Interface Segregation隔离 Principle
+  + 使用者不应该被强制implement他们不需要的methods
+  + 尽可能地让接口越小越好
++ Dependncy Inversion Principle
+  + 抽象类不应该取决于细节，设计的时候不应该考虑细节
+  + 类可以改变，但是要遵循父类的界限
+
+## Java Week4 08
+
+### Abstraction
++ Abstract Classes and Interfaces
++ Abstract Classes(0-100% abstraction)
+  + abstract and concrete methods
+  + abstract keyword
++ interface (100% abstraction)
+  + 方法默认是抽象的
+
+### super and super()
+```java
+class Animal{
+  String colour = 'white';}
+class Dog extends Animal{
+  String colour = 'black';
+  void printColour(){
+    System.out.println(colour);
+    System.out.println(super.color)}}
+```
+
+```java
+class Animal{
+  Animal(){
+    System.out.println('animal is created');
+    }}
+
+class Dog extends Animal{
+  Dog(){
+  super();
+    System.out.println('dog is created');
+    }}
+```
+
+### Packages
++ a group of related classes and interfaces
++ organise teams code
++ 控制了获取代码的权限
++ 包内定义的类必须通过包名获取
++ 当没有包被指定的时候，默认使用``the global (default) no-name package``
+
+<br>
+
++ ``package pkg1.pkg2;`` pkg2 inside a pkg1
++ compile Myclass.java in pkg1.pkg2:``javac -d . Myclass.java``
++ run Myclass: ``java pkg1.pkg2.Myclass``
+
++ importing pakages:
+  + ``pkg1.pkg2.Myclass v = new pkg1.pkg2.Myclass();``
+  + 或者也可以
+    + ``import pkg.Myclass;``
+    + ``import pkg.*;``
+      + 这些申明应该紧跟着``pakage statement`` 但是在任何``class definition``前面
+
+### Static import
++ 使用static import可以导入类中的静态成员
++ 这些静态成员可以直接用他们的名字来调用，不需要加class的名字
+  + 比如，使用``import static Math.sqrt`` 或者 ``import static Math.*``
+  + 就可以直接使用``sqrt()``而不是``Math.sqrt()``
+
+### Polymorphism 多态
++ Polymorphism is the ability of an object to take on many forms
+  + ``Compile time polymorphism``
+  + ``Runtime polymorphism``
+  + ``Parametric polymorphism``
++ Types of polymorphism
+  + ``Method overloading``(compile time polmorphism)
+    + 有同样名字的参数可以有不同的类型
+  + ``Generics in Java`` 泛型(parameric polymorphism)
+  + ``subclass Polymorphism`` (runtime polymorphism)
+    + `` is-a relationship``
+
+### Generics:
++ 提供更强大的``type checking``
++ ``remove the need for casting``
++ can be used with collections
+
+### 使用``@Override``
++ 允许编译器检查是否有拼写错误或者是错误的参数
++ 让代码更容易被理解
+
+
+### ArrayList:
+```java
+java.util.ArrayList list = new java.util.ArrayList();
+list.add("Generics")
+list.add(5)
+```
+运行以上代码会有警告，``"java uses unchecked or unsafe operations."``
+
+给上面的代码加上``Generics``
+```java
+java.util.ArrayList<String> list =
+  new java.util.ArrayList<String>();
+  list.add("Generics");
+  list.add(5);
+```
+如上代码编译时会出现错误指向``list.add(5)``
+
+### 为什么要用Generics
++ 好处是可以让编译的时候就发现问题，而不是在run time
++ 一个Generic类或方法允许你指定他们可以允许的types
++ ``Generics is the capability to parameterize types``泛型是参数化类型的能力
++ ``Change location of bugs from runtime to compile time``
+
+
+## Java week7 01 Exception Handling
+
+### Exception handling ``Try,Catch``
+```java
+try{
+  int result = quotient(n1,n2);
+  System.out.println(n1 + '/'+ n2 + 'is' + 'result');
+  }
+catch (ArithmeticException ex){
+  System.out.println("Exception:" + " an integer " + " cannot be divided by zero");
+}
+```
+
+### Other types of exception:
++ ``ArithmeticException``
++ ``InputMismatchException``程序会不停的读入一个输入直到他是正确的
++ ``IndexOutofBoundsException (array index too big/small)``
++ ``IllegalArgumentException (method has been passed an illegal argument)``
+
+处理错误的输入
+```java
+do{
+  try{
+    System.our.print("Enter an integer:");
+    int number = input.nextInt();
+    continueInput = false;}
+
+  catch (InputMismatchExcpetion ex){
+    System.out.println("Try again:");
+    input.nextLine();}
+  }
+while(continueInput);
+```
+
+### Declaring Exceptions using ``throws``
++ throws 用来声明一个异常
