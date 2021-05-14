@@ -50,6 +50,14 @@
     - [Exception handling ``Try,Catch``](#exception-handling-trycatch)
     - [Other types of exception:](#other-types-of-exception)
     - [Declaring Exceptions using ``throws``](#declaring-exceptions-using-throws)
+    - [``try,catch,finally,throw,throws``](#trycatchfinallythrowthrows)
+    - [FileReader:](#filereader)
+    - [BufferedReader](#bufferedreader)
+  - [Java week 10 tues](#java-week-10-tues)
+    - [int and Integer:](#int-and-integer)
+    - [Double and Float](#double-and-float)
+  - [Week10 02](#week10-02)
+    - [Data Structures(Collections)](#data-structurescollections)
 ## Lecture 01 Week1
 
 ### Java Compilers and the JVM
@@ -577,3 +585,95 @@ while(continueInput);
 
 ### Declaring Exceptions using ``throws``
 + throws 用来声明一个异常
+```java
+class ThrouwsThrouw{
+  void testMethod(int num) throws IOException, ArithmeticException{
+    if(num >=42):
+      throw new IOException("IOException");
+    else:
+      throw new ArithmeticException("Arithmetic");
+  }
+}
+
+class ThrowsMain{
+  public static void main(String args[]){
+    try{
+      ThrowsThrow obj = new ThrowsThrow();
+      obj.testMethod(42);
+    }
+    catch(Exception ex){
+      System.out.println(ex);
+    }
+  }
+}
+```
+
+### ``try,catch,finally,throw,throws``
++ throw: ``transfer control from try block to catch block``
++ throws:``specifies the exceptions that a method can throw to the caller, doesn't use try or catch itself.``
+
+
+### FileReader:
++ The data is a stream of characters
++ ``java.io``
+```java
+import java.io.FileReader
+String fileName = "FRtest.txt";
+FileReader input = new FileReader(fileName)
+try{
+  char [] a = new char[2048];
+  fileReader.read(a);
+
+  for (char c : a){
+    System.out.print(c);
+  }
+  finally{
+    fileReader.close();
+  }
+}
+```
+最后要有fileReader.close()来关闭这个阅读
+
+### BufferedReader
++ 使用其他reader来使用character阅读data，效率更高
++ ``Maintains an internal buffer of 8192 characters``
++ Example:
+```java
+char[] BRchars = new char[120];
+
+try{
+  FileReader file = new FileReader("BRtest.txt");
+  BufferedReader BR = new BufferedReader(file);
+  BR.read(BRchars);
+  System.out.println(BRchars);
+  BR.close()
+}
+catch(Exception e){
+  e.getStackTrace();
+}
+```
+## Java week 10 tues
+### int and Integer:
++ ``int``:
+  + BInary representation of an integer
+  + 32 bits
+  + 无法从字符串强制转换的来
+  + 无法被``rebased``进制转换
++ ``Integer``
+  + ``Wrapper class``包装类
+  + Used in collections or generics
+  + 128 bits
+  + String -> Integer -> Hex
+    + Integer(String).......toHexString()
+
+### Double and Float
++ Extend Number CLass
+
+
+## Week10 02
+
+### Data Structures(Collections)
++ ``Collections Framework`` provides a hierarchy of ``interfaces and classes`` that provide solutions to managing groups of objects
++ including ways to store collections
++ Generic implementations of common data structures
++ 
