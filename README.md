@@ -72,6 +72,10 @@
     - [Multithreading of Linked list:](#multithreading-of-linked-list)
     - [Arraylist](#arraylist-1)
     - [Linked list 在面对变量，对象都是不可改变的时候的效果会更好](#linked-list-在面对变量对象都是不可改变的时候的效果会更好)
+  - [Week 12](#week-12)
+    - [Strings](#strings)
+    - [String pool](#string-pool)
+    - [String method:](#string-method)
 ## Lecture 01 Week1
 
 ### Java Compilers and the JVM
@@ -818,3 +822,28 @@ class Autoboxing1{
 ### Linked list 在面对变量，对象都是不可改变的时候的效果会更好
 + Linked list 一定要有一个head， a reference to the initial memory location
 + ``Null pointer`` for final member to point to一定要让最后一个指针指向Null
+
+## Week 12
+### Strings
++ Strings are an object of ``type String (but not a primitive``
+  + 字符串是类型String的对象，不是一个primitive
++ Strings are ``immutable`` 字符串是不可变的
+
+### String pool
++ A storage area in memory where strings are stored(String objects)
++ Identical strings just point to same memory location in string poll
+  + **String s1 = "TestString";**
+  + **String s3 = "TestString:l**
+  + 这两个都指向同一个内存空间
++ s2.intern(); //check to see if string exists
+
+### String method:
+```java
+string.replace('w','y');
+string.toUpperCase();
+string.length();
+
+startsWith()
+toLowerCase()
+Substring()
+```
