@@ -54,10 +54,24 @@
     - [FileReader:](#filereader)
     - [BufferedReader](#bufferedreader)
   - [Java week 10 tues](#java-week-10-tues)
+    - [Classes that correspond to primitives](#classes-that-correspond-to-primitives)
     - [int and Integer:](#int-and-integer)
     - [Double and Float](#double-and-float)
-  - [Week10 02](#week10-02)
+    - [Character:](#character)
+    - [Math Class](#math-class)
+    - [Autoboxing:](#autoboxing)
+  - [Java week 10 Wed](#java-week-10-wed)
     - [Data Structures(Collections)](#data-structurescollections)
+    - [Array 数组](#array-数组)
+    - [Stack and queues](#stack-and-queues)
+    - [Linked List:](#linked-list)
+    - [Tree](#tree)
+    - [Binary search tree:](#binary-search-tree)
+    - [Frameworks (框架)](#frameworks-框架)
+    - [List Methods](#list-methods)
+    - [Multithreading of Linked list:](#multithreading-of-linked-list)
+    - [Arraylist](#arraylist-1)
+    - [Linked list 在面对变量，对象都是不可改变的时候的效果会更好](#linked-list-在面对变量对象都是不可改变的时候的效果会更好)
 ## Lecture 01 Week1
 
 ### Java Compilers and the JVM
@@ -653,14 +667,35 @@ catch(Exception e){
 }
 ```
 ## Java week 10 tues
+
+### Classes that correspond to primitives
++ Primitives(int,double...) 不是objects
++ They are passed by value to methods
++ Primitives are immutable(不可改变的)
+  + 一个local variable是可以改变的，但那实际上是变成了一个新的变量，而不是被改变了值
+  + 例如一个int变量＝4，我们将其变为2，this is a change of 100% of tis identity
++ 有时候我们会需要创建primatives的object version
+  + ``int``
+    + 32bits
+    + 无法从字符串值转换来，`cannot be casted to from a string value`
+    + cannot be rebased (hex)无法被转换进制
+  + ``Integer``
+    + Wrapper class 包装类
+    + Used in collections or generics
+    + 128 bits
+    + String -> Integer -> Hex
+      + Integer(String)     .toHexString()
+
+
 ### int and Integer:
 + ``int``:
-  + BInary representation of an integer
+  + Binary representation of an integer
   + 32 bits
   + 无法从字符串强制转换的来
   + 无法被``rebased``进制转换
 + ``Integer``
   + ``Wrapper class``包装类
+    + ``Java.lang.Number is superclass of numeric type wrapper``
   + Used in collections or generics
   + 128 bits
   + String -> Integer -> Hex
@@ -668,12 +703,118 @@ catch(Exception e){
 
 ### Double and Float
 + Extend Number CLass
++ Constructors:
+  + ``Float(double d)`` ``Double(doubel d)``
+  + ``Float(float f)``
+  + ``Float(String s)`` ``Double(String s)``
+    + throw excepion if not a number
+
+### Character:
++ to wrap: Character(char c)
++ to return char: char charValue()
+
+### Math Class
++ Contains static methods
++ min(),max(),avg(),sqrt(),round(),abs()
+
+### Autoboxing:
++ ``Wrapper classes -> primitive types without casting``
++ When method is expecting wrapper class* also when assigning a primitive to a wrapper class or cleection framework class.
+```java
+class Autoboxing1{
+  public static void testAB(Integer i){//Method accepter Integer
+    System.out.println(i);
+  }
+  public static void main(String[] args){
+    int n = 42;
+    testAB(n); 同样是可以通过的，会被自动转换成Integer
+  }
+}
+```
 
 
-## Week10 02
+
+## Java week 10 Wed
 
 ### Data Structures(Collections)
 + ``Collections Framework`` provides a hierarchy of ``interfaces and classes`` that provide solutions to managing groups of objects
 + including ways to store collections
 + Generic implementations of common data structures
-+ 
+
+
+### Array 数组
++ array is a collection of similar type of elements数组是一系列相似类型元素的集合
++ ``has continuous memory location`` 有一个连续的内存储存空间
++ Fixed length linear lists 固定长度的线性列表
++ Access via index 使用下表进行访问
++ support ``fast random access`` to element
++ Connection between elements is implicit
+  + save space, saves time 元素之间的连接是非显性的
++ 一些内置的static methods
+  + ```Arrays.binarySearch(myArray,myKey)```
+  + ```Arrays.hashCode(myArray)```
+  + ```Arrays.sort(myArray)```
+
+### Stack and queues
++ Stack = Last in First out(LIFO)后进先出，最后进出的先出来
+  + ``No random access``
+  + Push and Pop
++ Queue = First in First out(FIFO) 先进去的也最先出来
+  + No random access
++ Prioritised Queues 有线队列
+  + Items added or taken off using som priority metric 使用特定的``priority metric``来添加或者删除元素
+
+### Linked List:
++ Elements accessed more flexibly 获取元素更加灵活
++ 添加或移除一个元素是通过重新排列links，而不是改变数据的位置
++ `One link = singly linked list`
++ `Two links = doubly linked list`
++ 从head开始寻找一个元素的复杂度是O(n)
++ 在任何你确定的位置添加一个元素的复杂度是O(1)
+
+### Tree
++ Root is first item
++ Any node with no subtree is a 'leaf'
+
+
+### Binary search tree:
++ Each node has link to left and right subtree 每一个节点都有左子树或右子树，如果有的话
++ 其中一边的值会更小 ``smaller values one side``
+
+### Frameworks (框架)
++ sets of pre-written code
++ Used as templates
++ IDEs provide some of these framework ability
++ `Predefined classes and functions`
++ Examples:
+  + Play: web development, safe I/O, Database access
+  + GWT (Google Web Toolkit):
+    + Quick UI builds
+    + Used for various Google apps
+  + Spring
+
+
+### List Methods
++ .get(int index): returns the element at the specified position in this list
++ .set(int index, E element): replace the element at the specified position
+
+### Multithreading of Linked list:
++ Many threads can be working on one linked list:``compare and swap``
++ can iterate while changing
++ Arrays require much more 'locking' due to the need to change so many elements
+
+### Arraylist
++ support dynamic arrays 支持动态数组
++ Automatically enlarges when needed 在需要的时候自动扩容
++ 3 constructors三个构造器
+  + ``ArrayList(0)``  // build empty Arraylist
+  + ``ArrayList(int capacity)`` // build ArrayList with a specified initial capacity
+    + 如果我们需要写入很多，而且我们有一个对于可能的items的大概的估计，那么添加一个capacity进去会更有效率
+  + ``ArrayList(Collection c)``// build with elements from collection c
++ Benefits:
+  + ``如果读取的次数比写入的次数多，选择ArrayList更好``
+  + 有相当多的写入和完全不知道的尺寸，那么使用LinkedList会更好
+
+### Linked list 在面对变量，对象都是不可改变的时候的效果会更好
++ Linked list 一定要有一个head， a reference to the initial memory location
++ ``Null pointer`` for final member to point to一定要让最后一个指针指向Null
