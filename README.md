@@ -76,6 +76,53 @@
     - [Strings](#strings)
     - [String pool](#string-pool)
     - [String method:](#string-method)
+- [Haskell](#haskell)
+  - [Chapter 1](#chapter-1)
+    - [What is a Functional Language:](#what-is-a-functional-language)
+    - [Historical Backgroud:](#historical-backgroud)
+  - [Chapter 2](#chapter-2)
+    - [List 的一些操作](#list-的一些操作)
+    - [Function application 有更高的优先级：](#function-application-有更高的优先级)
+    - [Naming Requirements 命名要求](#naming-requirements-命名要求)
+    - [Layout Rule](#layout-rule)
+  - [Chapter 3](#chapter-3)
+    - [type inference 类型推断 & basic types](#type-inference-类型推断--basic-types)
+    - [Function:](#function)
+    - [Polymorphic Functions 多态函数](#polymorphic-functions-多态函数)
+  - [Chapter 4 Defining Functions](#chapter-4-defining-functions)
+    - [Conditional expressions:](#conditional-expressions)
+    - [List Patterns](#list-patterns)
+    - [Lambda Expressions:](#lambda-expressions)
+    - [Operator Sections:](#operator-sections)
+  - [Chapter 5 List comprehension](#chapter-5-list-comprehension)
+    - [List Comprehensions](#list-comprehensions)
+    - [Dependent Generators:](#dependent-generators)
+    - [Guards](#guards)
+    - [Zip Function](#zip-function)
+    - [String Comprehensions:](#string-comprehensions)
+  - [Chapter 6 Recursioon](#chapter-6-recursioon)
+    - [Recursive Functions](#recursive-functions)
+    - [Testing timing in GHCi 打开时间显示](#testing-timing-in-ghci-打开时间显示)
+    - [Quicksort:](#quicksort)
+  - [Chapter 7 Higher-Order Functions](#chapter-7-higher-order-functions)
+    - [Higher Order Function](#higher-order-function)
+    - [Other Library Functions:](#other-library-functions)
+  - [Chapter 8 Declaring Types and Classes](#chapter-8-declaring-types-and-classes)
+    - [Type Delclarations](#type-delclarations)
+    - [Data Declarations](#data-declarations)
+    - [Arithmetic Expression](#arithmetic-expression)
+    - [Binary Trees](#binary-trees)
+  - [Chapter 10 Interactive Programming](#chapter-10-interactive-programming)
+    - [Haskell interactive program](#haskell-interactive-program)
+    - [Basic Actions](#basic-actions)
+    - [Sequencing](#sequencing)
+    - [Derived Primitives](#derived-primitives)
+  - [Chapter 15 Lazy evaluation and infinite lists](#chapter-15-lazy-evaluation-and-infinite-lists)
+    - [Introduction of how Haskell expression are evaluated](#introduction-of-how-haskell-expression-are-evaluated)
+    - [Reduction Strategies](#reduction-strategies)
+    - [Thunks](#thunks)
+    - [Lazy Evaluation:](#lazy-evaluation)
+    - [Modular Programming](#modular-programming)
 ## Lecture 01 Week1
 
 ### Java Compilers and the JVM
@@ -847,3 +894,423 @@ startsWith()
 toLowerCase()
 Substring()
 ```
+
+# Haskell
+
+## Chapter 1
+
+### What is a Functional Language:
++ Funcional Programming is style of programming in which the basic method of computation is the application of functions to arguments.
++ A functional language is one that supports and encourages the functional style
+
+### Historical Backgroud:
++ Lambda calculus -> Lisp -> ISWIM -> FP -> ML -> Miranda -> 1987 Haskell
+
+## Chapter 2
+
+### List 的一些操作
++ head [1,2,3,4] -> 1
++ tail [1,2,3,4] -> [2,3,4]
++ [1,2,3,4,5] !! 2 -> 3 取下标
++ take 3 [1,2,3,4,5] -> [1,2,3]
++ drop 3 [1,2,3,4,5] -> [4,5]
++ length sum product reverse
++ [1,2,3] ++ [4,5] -> [1,2,3,4,5]
+
+### Function application 有更高的优先级：
++ f a+b -> (f a) + b
+
++ x `f` y -> f x y 只是语法糖 sytacitic sugar
+
+### Naming Requirements 命名要求
++ 函数和参数名必须以小写字母开头:
+  + myFun, fun1, arg_2, x'
++ list arguments列表参数必须要有一个``s suffix``后缀
+  + xs, ns, nss
+
+### Layout Rule
++ 每一个定义都应该从同一列开始
+
+## Chapter 3
+
+### type inference 类型推断 & basic types
++ Bool
++ Char: single characters
++ String: string of characters
++ Int: fixed-precision integers
++ Integer: arbitrary-precision integers
++ Float: floating-point numbers
+
+### Function:
++ Functions that take their arguments one at a time are called ``curried functions``
+
+### Polymorphic Functions 多态函数
++ A function is called ``polymorhic`` if its type contains one or more type variables 类型涵盖多个种类的变量
+  + length :: [a] -> Int
+
+## Chapter 4 Defining Functions
+
+### Conditional expressions:
+```
+signum :: Int -> Int
+signum n = if n<0 then -1 else
+              if n==0 then 0 else 1
+```
++ conditional expressions 必须要有一个else branch一次可以避免可能的错误
+
++ ``Guarded Equations``:
+```
+abs n | n>=0 =n
+      | otherwise = -1
+```
+
++ ``Pattern Matching``
+  + Many functions have a particularly clear definition using ``pattern matching`` on their arguments
+```
+(&&) :: Bool -> Bool -> Bool
+True && True = True
+_    && _    = False
+```
+
++ Underscore symbol '_' is a ``wildcard`` pattern that matches any argument value
+  + 下划线是一个可以匹配所有参数值的通配符
++ Patterns are matched in order, and it may mot repeat variables
+
+### List Patterns
++ 列表时使用一个操作符(:)-> called 'cons', 这个操作符可以把一个元素添加到列表
+  + head :: [a] -> a
+  + head (x:_) = x
+  + tail :: [a] -> [a]
+  + tail (_:xs) = xs
+
+### Lambda Expressions:
++ Fcuntions can be constructed withouy naming the functions by using ``lambda expressions``
++ \x → x + x : 此函数返回x+x
++ ``λ``用反斜杠 ``\`` 来替代
++ add x y = x + y
+  + means:
+  + add = \x -> (\y -> x + y)
+
+### Operator Sections:
++ 1 + 2  -> (+) 1 2 -> (1+) 2 -> (+2) 1
+
+## Chapter 5 List comprehension
+
+### List Comprehensions
++ [x^2 | x <- [1..5]]
++ 改变generators生成器的位置也会改变元素的排列
+  + [(x,y) | x <- [1,2,3], y <- [4,5]]
+    + [(1,4),(1,5),(2,4),(2,5),(3,4),(3,5)]
+  + [(x,y) | y <- [4,5], x <- [1,2,3]]
+    + [(1,4),(2,4),(3,4),(1,5),(2,5),(3,5)]
+  + 会优先将放在前面的generator的元素先过一遍
+
+### Dependent Generators:
++ 后面的生成器依赖于前面的生成器的变量:
+  + [(x,y) | x <- [1..3], y<- [x..3]]
+    + [(1,1),(1,2),(1,3),(2,2),(2,3),(3,3)]
++ 使用dependent generators, 我们可以定义一个concatenates function
+  + concat :: [[a]] -> [a]
+  + concat xss = [x | xs <- xss, x <- xs]
+
+### Guards
++ 列表生成式使用``guards``来限制values
++ [x | x <- [1..10], even x]
+
+### Zip Function
++ map two lists to a list of pairs of their corresponding lements
+  + zip :: [a] -> [b] -> [(a,b)]
+  + zip ['a','b','c'] [1,2,3,4]
+    + [('a',1),('b',2),('c',3)]
++ pairs :: [a] -> [(a,a)]
++ pairs xs = zip xs (tail xs)
+  + 上述pair代码中，xs 与 tail xs 进行zip，由于长度不同，所以实际上是前n-1个和后n-1个进行zip
+
+### String Comprehensions:
++ String 本身就是一种特殊的列表，所以任何适用于列表的polymorphic function都适用与列表
+
+
+
+## Chapter 6 Recursioon
+
+### Recursive Functions
++ fac 0 = 1
++ fac n = n * fac(n-1)
+
+<br>
+
++ product :: Num a -> [a] -> a
++ product [] =1
++ product (n:ns) = n * product ns
+
+<br>
+
++ length :: [a] -> Int
++ length []  = 0
++ length (_:xs) = 1 + length xs
+
+### Testing timing in GHCi 打开时间显示
++ :set s+ command
+
+### Quicksort:
+```haskell
+qsort :: Ord a -> [a] -> [a]
+qsort []      = []
+qsort [] (x:xs) = []
+  qsort smaller ++ [x] ++ qsort larger
+  where
+      smaller = [a | a <- xs, a <= x]
+      larger = [b | b <- xs, b > x]
+```
+
+## Chapter 7 Higher-Order Functions
+
+### Higher Order Function
++ 如果一个函数把一个函数当作参数，或者是当作结果来返回，那么这个函数就被称作``higer-order`` function
++ 用处:
+  + 1. ``Common programming idioms`` can be encoded as functions within the language itself
+  + 2. ``Domain specific languages`` can be defined as collections of higher-order functions
+  + 3. ``Encapsulation using partial function application`` can be used to hide implementation detial
+  + 4. ``Algebraic properties`` of higher-order functions can be used to reason about programs
+
++ Define a `map` function:
+  + map f xs = [f x | x <- xs] (use list comprehension)
++ or:
+  + map f [] = []
+  + map f (x:xs) = f x:map f xs (use recursive)
+
++ higer-order function ``foldr``:
+  + ``sum = foldr (+) 0``
+    + sum [] = 0
+    + sum (x:xs) = x + sum xs
+  + ``product = foldr (*) 1``
+    + product [] = 0
+    + product [x:xs] = x * product xs
+  + or = foldr (||) False
+  + ``在foldr可以用于简便实现列表的递归函数，只需要使用 foldr 运算符 初始值的形式即可``
++ define foldr
+```haskell
+foldr :: (a-> b -> b) -> b -> [a] -> b
+foldr f v []  = v
+foldr f v (x:xs) = f x (foldr f v xs)
+```
+
++ folder 的优点
+  + simpler
+  + properties of functions defined using foldr can be proved using algebraic properties of foldr, such as ``fusion融合`` and the ``banana split`` rule
+  + Advanced program ``optimisations`` can be simpler if foldr is used in place of explicit recursion
+
+### Other Library Functions:
++ function ``(.)`` returns the composition of two functions as a single function 把两个函数结合在一起
+```haskell
+odd :: Int -> Bool
+odd = not . even
+```
+
++ function ``all`` decides if every element of a list satisfies a given predicate, all 用于判断是否列表中的所有元素都符合给定的样式
+```haskell
+all :: (a-> Bool) -> [a] -> Bool
+all p xs = and [p x | x <- xs]
+```
+<br>
+
+```haskell
+all even [2,4,6,8,10]
+```
++ function ``any`` 判断列表中是否至少有一个符合给定的样式
+
++ funcrtion ``takeWhile`` selects elements from a list while a predicate holds of all the elements
+```haskell
+takeWhile :: (a-> Bool) -> [a] -> [a]
+takeWhile p [] = []
+takeWhile p (x:xs)
+    | p x     = x : takeWhile p xs
+    | otherwise = []
+```
+
+```haskell
+takeWhile (/= ' ') "abc def"  //"abc"
+```
+上述代码中的``/= ' '``意思是选取引号中字符前的所有内容
+
++ function ``dropWhile`` 去除所有符合predicate谓词的值
+```haskell
+dropWhile (==' ') "   abc"  // "abc"
+```
+
++ function ``curry`` takes an uncurried function and consturcts a curried version of this function 
+  + curry function会获取一个uncurried function并且构造一个这个函数的curried version
+```haskell
+curry :: ((a,b) -> c) -> (a-> b -> c)
+curry f = \x y -> f (x,y)
+
+addUncurried :: (Int, Int) -> Int
+addUncurried :: (x,y) = x + y
+
+> addUncarried (1,2) //3
+> curry addUncarried 1 2 //3
+> :type curry addUncurried :: Int -> Int -> Int
+```
++ 相对应的，也存在``uncurry``,效果与curry相反
+
+## Chapter 8 Declaring Types and Classes
+
+### Type Delclarations
+
++ ``type String = [Char]``
++ ``type Pos = (Int, Int)``
+
+### Data Declarations
++ ``data Bool = False | True`` 此例中，新类型Bool有两个值False 和True
+  + 这其中，他的两个值False 和True被称作``constructors`` for the type Bool
++ Type and constructor names must always begin with an ``upper-case letter``
+  + Type 与 constructor的名字必须用大写字母开头
+
++ constructors in a data declaration can also have parameters:
+```haskell
+data Shape = Circle Float
+            | Rect Float Float
+//上述data Shape代码中，Circle & Rect都可以视为是函数
+
+square :: Float -> Shape
+square n = Rect n n
+
+area :: Shape -> Float
+area (Circle r) = pi * r^2
+area (Rect x y ) = x * y
+```
+
++ 同样的data declaration自己也可以拥有参数
+```haskell
+data Maybe a = Nothing | Just a
+
+safehead :: [a] -> Maybe a
+safehead [] = Nothing
+safehead xs = Just (head xs)
+```
+
++ Recursive Types of data declarations
+```haskell
+data Nat = Zero | Succ Nat
+```
+
+### Arithmetic Expression
+```haskell
+data Expr = Val Int
+          | Add Expr Expr
+          | Mul Expr Expr
+
+Add (Val 1) (Mul (Val 2) (Val 3))
+```
+
+### Binary Trees
+```haskell
+data Tree a = Leaf a
+            | Node (Tree a) a (Tree a)
+
+occurs :: Ord a => a -> Tree a -> Bool
+occurs x (Leaf y)     = x == y
+occurs x (Node l y r) = x == y
+                      || occurs x l
+                      || occurs x r
+
+flatten :: Tree a -> [a]
+flatten :: (Leaaf x)  = [x]
+flatten (Node l x r) = flatten l
+                        ++ [x]
+                        ++ flatten r
+```
+
++ 如果一个数被flatten到一个列表后是有序的，那么这个树是``search tree``
+
+## Chapter 10 Interactive Programming
+
+### Haskell interactive program
++ ``IO a``: return a value of type a
++ ``IO ()``:return no result value, () 是没有元素的元组
+
+
+### Basic Actions
++ getChar :: IO Char
+  + 从键盘读取一个character, echoes it to the screen, 并返回此字符的值
++ putChar :: Char -> IO()
+  + putChar c写入一个字符到屏幕中，但不返回任何值
++ return :: a -> IO a
+  + simply return the value v, without performing any interaction
+
+### Sequencing
++ 有一些单个操作组成的序列动作可以使用``do``关键字
+```haskell
+act :: IO (Char,Char)
+act = do x <- getChar
+          getChar
+          y <- getChar
+          return (x,y)
+```
+### Derived Primitives
++ Reading a String from the keyboard:
+```haskell
+getLine :: IO String
+getLine :: do x <- getChar
+              if x == '\n' then
+                  return []
+              else
+                  do xs <- getLine
+                      return (x:xs)
+```
+
++ Writing a String to the screen
+```haskell
+putStr :: String -> IO()
+putStr []     = return ()
+putStr (x:xs) = do putChar x
+                   putStr xs
+```
+
+## Chapter 15 Lazy evaluation and infinite lists
+
+### Introduction of how Haskell expression are evaluated
++ 1. Avoids doing unnecessary evaluation
++ 2. Allows programs to be more ``modular``模块化的
++ 3. Allows us to program with ``infinite lists``无限列表
++ 以上这些techinique被叫做``lazy evaluation``
+
+### Reduction Strategies
++ 在evaluation的每一个阶段都会有很多可能的subexpressions，这个时候有两种通用的策略进行选择
++ 1. Innermost reduction: an innermost reduction is always reduced. 最外层
++ 2. Outermost reduction: an outermost reduction is always reduced. 最内层
+
++ 给定以下代码，使用innermost reduction
+  + 使用innermost reduction在面对如下有无限内层的代码时，会无限循环
+```haskell
+loop = tail loop
+
+fst (1,loop)
+= fst (1, tail loop)
+= fst (1, tail (tail loop))
+= .. infinite loop, does not terminate
+```
+
++ 使用outermost reduction
+  + outermost reduction 通常会在 innermost reduction 运行失败的情况下给出一个结果
+  + 然而，outmost reduction可能会需要更多的运算步骤
+```haskell
+fst (1, loop)
+= 1
+```
+
+### Thunks
++ Outmost reduction is ``inefficient because (3+4)或其他小运算被重复了很多次
+  + 解决方法: ``use sharing``
+
+### Lazy Evaluation:
++ 针对以上问题的new evaluation strategy
+  + ``Lazy Evaluation = Outmost reduction + Sharing``
+  + Facts
+    + Lazy Evaluation 从不需要比innermost reduction更多的步骤
+    + Haskell使用的是Lazy Evaluation
+
+### Modular Programming
++ ```take 5 [1..]```
++ control : ``take 5``
++ data : ``[1..]``
