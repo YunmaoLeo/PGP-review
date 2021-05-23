@@ -205,7 +205,7 @@
   + ```int [][] grid={ {1,2},{10,20} };```
 
 ### 有标签的 ``break``
-```
+```java
 class LabelledLoop {
            public static void main(String args[])
            {
@@ -239,10 +239,10 @@ break loop1;
 + 如果被复制的参数是一个``reference type引用类型``,那么它的改变会影响到对象 ``(String, objects)``
 
 ### Method overloading:
-+ 在一个class中的两个方法可以使用同一个名字，如果它们泗洪的参数声明不一样
++ 在一个class中的两个方法可以使用同一个名字，如果它们使用的参数声明不一样
 
 ### Constructor overloading
-```
+```java
 class Myclass{
     int x;
     MyClass(){
@@ -260,7 +260,7 @@ class Myclass{
 }
 ```
 在如上代码中，不同的构造函数会基于不同的参数来进行操作
-```
+```java
 MyClass t1 = new MyClass();
 MyClass t2 = new MyClass(88);
 MyClass t3 = new MyClass(17.23);
@@ -275,7 +275,7 @@ MyClass t4 = new MyClass(2,4);
 + 它的 ``范围scope`` 是 ``enclosing class``
 
 例子：
-```
+```java
 class Outer {
     int x = 5;
     class Inner {
@@ -308,7 +308,7 @@ class Outer {
 + 让代码更安全（变量通过特殊的方式进行修改）
 + 如果变量是被声明static的，那么在任何对象改变他，适用于所有的对象
 + ``Static methods``在他的对象的类创建之前就可以被调用
-+ 静态方法不能是用``this``
++ 静态方法不能使用``this``
 
 ### Inheritance继承
 + Class that is inherited is the ``superclass``
@@ -326,7 +326,7 @@ class Outer {
 + 如果一个类从他的父类继承了一个方法，他可以选择``override``掉，除非父类没有标注``final``
 + 如果方法使用相同的名字被重写，在编译时，他们会将原本的方法给替代掉
 + 需要相同的参数和返回类型
-+ 一个被声明了``final`` 或 ``or`` 的方法不可以被改写
++ 一个被声明了``final`` 或 ``static`` 的方法不可以被改写
 + ``constructors``构造器不可以被改写
 
 
@@ -346,7 +346,7 @@ class Outer {
   + ``static inner class``
     + 静态类可以不初始化就访问
     + 无法获取外部类的实例变量或方法
-    + 像方法一样调用  ``XXX.inner_class
+    + 像方法一样调用  ``XXX.inner_class``
   + ``private inner class``
     + 内部类可以获取外部类的私有变量
   + ``Method local inner classes``:
@@ -394,13 +394,13 @@ class Outer {
 + 比如，使用合适的接口，可以指定对象是
   + ``compareble``可比较的 
   + ``edible``可修改的
-  + ``rideable``可读的
+  + ``readable``可读的
 + 然后抽象类只是未成熟的骨架，必须要用子类
 
 + Interface:
   + 只能有抽象方法
   + 成员永远是public的
-  + 借口只能继承其他的java接口
+  + 接口只能继承其他的java接口
   + 只有static和final变量
   + Java8 中也允许使用默认和静态方法了
     + Default:
@@ -418,7 +418,7 @@ class Outer {
     ```
 
 ### Interface:
-+ 接口是一个``reference type``参数类型，和类相似，是抽象方法的合集，一个类implements一个接口，因此继承了借口的抽象方法
++ 接口是一个``reference type``参数类型，和类相似，是抽象方法的合集，一个类implements一个接口，因此继承了接口的抽象方法
 + 同样可以包含``final values, default methods, static methods and inner classes``
  
 ```Java
@@ -447,11 +447,11 @@ public interface InterfaceName{
   + ``public interface Bicycle extends Vehicle``
   + ``public interface Fish extends Animal, Food``
   + 这允许了一个类由多个父类``one class to have multiple parents``
-  + 通过这样做，我们可以使用借口来规避单一继承的限制
+  + 通过这样做，我们可以使用接口来规避单一继承的限制
   
 
 ### Interfaces vs. Abstract Class
-+  在借口中，如果需要涵盖数据，就必须是``constant*``，一个抽象类可以有多种类别的数据，借口是更纯粹的抽象
++  在接口中，如果需要涵盖数据，就必须是``constant*``，一个抽象类可以有多种类别的数据，接口是更纯粹的抽象
 +  所有的类都共享同一个父类``Object class``， 但是接口没有
 
 ### 使用接口还是类？
@@ -742,7 +742,7 @@ catch(Exception e){
 + ``int``:
   + Binary representation of an integer
   + 32 bits
-  + 无法从字符串强制转换的来
+  + 无法从字符串强制转换得来
   + 无法被``rebased``进制转换
 + ``Integer``
   + ``Wrapper class``包装类
