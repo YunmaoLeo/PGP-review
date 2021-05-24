@@ -107,6 +107,7 @@
   - [Chapter 7 Higher-Order Functions](#chapter-7-higher-order-functions)
     - [Higher Order Function](#higher-order-function)
     - [Other Library Functions:](#other-library-functions)
+    - [Currying](#currying)
   - [Chapter 8 Declaring Types and Classes](#chapter-8-declaring-types-and-classes)
     - [Type Delclarations](#type-delclarations)
     - [Data Declarations](#data-declarations)
@@ -880,7 +881,7 @@ class Autoboxing1{
 + A storage area in memory where strings are stored(String objects)
 + Identical strings just point to same memory location in string poll
   + **String s1 = "TestString";**
-  + **String s3 = "TestString:l**
+  + **String s3 = "TestString";**
   + 这两个都指向同一个内存空间
 + s2.intern(); //check to see if string exists
 
@@ -1085,7 +1086,7 @@ qsort [] (x:xs) = []
     + sum (x:xs) = x + sum xs
   + ``product = foldr (*) 1``
     + product [] = 0
-    + product [x:xs] = x * product xs
+    + product (x:xs) = x * product xs
   + or = foldr (||) False
   + ``在foldr可以用于简便实现列表的递归函数，只需要使用 foldr 运算符 初始值的形式即可``
 + define foldr
@@ -1137,6 +1138,16 @@ takeWhile (/= ' ') "abc def"  //"abc"
 ```haskell
 dropWhile (==' ') "   abc"  // "abc"
 ```
+
+### Currying
++ Curring is the process of transforming a function that takes multiple arguments in a tuple as its argumet, into a function that takes just a single argument and returns another function which accepts further arguments, one by one, that the original function would receive in the rest of that tuple
++ f :: a -> (b->c)
+  + is the curred form of 
+    + g :: (a,b) -> c
++ 优点：Curried form is usually more convenient because it allows ``partial application``
++ All functions in Haskell take just one argument. so ``f :: a -> b -> c`` is really ``f :: a -> (b -> c)``
++ 比如 div :: int -> int -> int  =====>> div :: int -> (int -> int)
+  + curry实际上就是，函数首先获取第一个第一个int，返回了一个可以接收int并返回一个int的函数
 
 + function ``curry`` takes an uncurried function and consturcts a curried version of this function 
   + curry function会获取一个uncurried function并且构造一个这个函数的curried version
@@ -1300,7 +1311,7 @@ fst (1, loop)
 ```
 
 ### Thunks
-+ Outmost reduction is ``inefficient because (3+4)或其他小运算被重复了很多次
++ Outmost reduction is ``inefficient`` because (3+4)或其他小运算被重复了很多次
   + 解决方法: ``use sharing``
 
 ### Lazy Evaluation:
